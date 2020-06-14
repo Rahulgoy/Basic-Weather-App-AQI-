@@ -11,3 +11,5 @@ Then add the link in the weather.py file
 Once done Open terminal>> python weather.py
 and enter the zip code of state to search
 
+Note: Make sure internet services are available
+

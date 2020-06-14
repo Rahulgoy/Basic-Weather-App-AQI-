@@ -4,11 +4,16 @@ import json
 
 root = Tk()
 root.title("Weather App")
+api_key = "Your API Here"
 
+def erase():
+    if (output.winfo_exists()==1):
+        output.grid_forget()
+    
 def search():
      
     try:
-        api_request = requests.get("http://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=" + zip.get() + "&distance=10&API_KEY=FF07A34C-6362-4EFC-9638-29E28461A87D")
+        api_request = requests.get("http://www.airnowapi.org/aq/observation/zipCode/current/?format=application/json&zipCode=" + zip.get() + "&distance=10&API_KEY="+api_key)
         api = json.loads(api_request.content)
 
         city = api[0]['ReportingArea']
@@ -28,11 +33,14 @@ def search():
         elif category == "Hazardous":
             weather_color = "#660000"
 
-        text = Label(root, text = city +" Air Quality:" + str(quality) +" " + category, background=weather_color)
-        text.grid(row=2, column=0, columnspan= 2, pady=10, padx=10)
+        global output
+        
+       
+        
+        output = Label(root, text = city +" Air Quality:" + str(quality) +" " + category, background=weather_color)
+        output.grid(row=2, column=0, columnspan= 2, pady=10, padx=10)
         root.configure(background=weather_color)
         
-
     except Exception as e:
         api = "Error..."
 
@@ -43,7 +51,7 @@ zip = Entry(root)
 zip.grid(row=0, column=1, padx=10, pady=(10,0), stick=W+E+N+S)
 
 mybtn = Button(root, text = "Search", command=search)
-mybtn.grid(row=1, column=0, columnspan= 2, pady=10, padx=10, ipadx=100,stick=W+E+N+S)
+mybtn.grid(row=1, column=0, columnspan= 2, pady=10, padx=10, ipadx=100, stick=W+E+N+S)
 
 
 root.mainloop()
